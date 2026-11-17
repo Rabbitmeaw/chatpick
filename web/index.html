@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>拾聊 ChatPick · 离线预览</title>
+  <link rel="icon" type="image/png" href="/assets/app-icon.png"><link rel="apple-touch-icon" href="/assets/app-icon.png">
+  <link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/layouts.css"><script src="/charts.js" defer></script><script src="/live-ui.js" defer></script><script src="/daily-ui.js" defer></script><script src="/import-ui.js" defer></script><script src="/discord-format.js" defer></script><script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到内容</a>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="拾聊首页"><img class="brand-icon" src="/assets/app-icon.png" alt="" width="44" height="44"><span>拾聊<small>CHATPICK</small></span></a>
+    <div class="workspace" id="bot-workspace"><label for="server">服务器<select id="server" aria-describedby="server-help"><option value="community">产品共创社区</option></select></label><label for="channel">频道<select id="channel" aria-describedby="server-help"></select></label><small id="server-help">先选择服务器和频道，再使用下方功能。</small><small id="auto-sync-status" role="status" aria-live="polite" hidden></small></div>
+    <div class="workspace import-workspace" id="import-workspace" hidden><div id="import-account-workspace"><label>服务器<select id="exporter-server"><option value="">先连接读取账号</option></select></label><label>频道<select id="exporter-channel"><option value="">先选择服务器</option></select></label></div><div id="import-file-workspace" hidden><label>服务器<strong id="import-server-name">选择读取范围</strong></label><label>频道<strong id="import-channel-name">尚未选择</strong></label><button type="button" class="evidence-link" id="exporter-use-account" hidden>改用账号读取 →</button></div><small>各页面共用当前频道，记录按账号隔离。</small><details id="account-sync-panel"><summary>后台读取</summary><label class="check-label"><input id="account-sync-enabled" type="checkbox">持续读取此频道</label><small id="account-sync-note">未开启；生成或提问时补齐日期。</small></details></div>
+    <nav aria-label="主要功能">
+      <button class="nav-button active" data-page="reports" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>报告与总结</button>
+      <button class="nav-button" data-page="questions"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a7 7 0 0 1-7 7H7l-4 3V8a5 5 0 0 1 5-5h5a7 7 0 0 1 7 8Z"/><path d="M8 9a2.5 2.5 0 1 1 4.5 1.5c-.8.5-1.5 1-1.5 2M11 15h.01"/></svg>自由问答</button>
+      <button class="nav-button" data-page="activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3v17h17M8 16v-5M13 16V6M18 16V9"/></svg>活跃与趋势</button>
+      <button class="nav-button" data-page="alerts"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4M12 2v1"/></svg>重点提醒</button>
+      <details class="sidebar-settings" id="sidebar-settings"><summary>连接设置</summary>
+      <div class="workspace source-workspace" id="report-source-field" hidden><label>连接方式<select id="report-source"><option value="bot">服务器 Bot</option><option value="account">个人账号或 JSON</option></select></label></div>
+      <button type="button" class="nav-button" id="account-setup-button" hidden>Discord 账号</button>
+      <button class="nav-button" data-page="bots"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="4"/><path d="M12 7V3m-2 0h4M1 12v4m22-4v4M8 16h8"/><circle cx="8.5" cy="11.5" r=".6"/><circle cx="15.5" cy="11.5" r=".6"/></svg>Bot 接入</button>
+      <button class="nav-button" data-page="settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h4m4 0h10M3 12h10m4 0h4M3 18h4m4 0h10"/><circle cx="9" cy="6" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="9" cy="18" r="2"/></svg>模型设置</button>
+      </details>
+    </nav>
+    <div class="side-note"><span class="dot"></span> 离线预览版<p>先用示例熟悉操作。<br>无需账号，也不产生费用。</p></div>
+  </aside>
+  <div class="app">
+    <header class="topbar"><span><span id="scope-label">社区工作台</span><span class="slash">/</span><strong id="breadcrumb">报告与总结</strong></span><span class="badge">仅本机 · 合成数据</span></header>
+    <main id="main">
+      <div class="offline-note" id="source-notice"><strong>正在载入拾聊</strong><span>仅本机访问；保存配置不会自动调用。</span></div>
+      <div id="global-status" role="status" aria-live="polite" hidden></div>
+      <section id="connection-guide" class="panel" hidden><h2>首次使用，先完成连接</h2><p id="connection-guide-note">连接 Discord，再填写模型信息；之后就可以选频道生成总结。</p><div class="form-actions"><button type="button" class="primary" id="connection-account">连接 Discord 账号</button><button type="button" data-open-page="bots" id="connection-bot">连接 Bot</button><button type="button" data-open-page="settings" id="connection-model">配置模型</button></div></section>
+      <section id="page-reports" class="page">
+        <div class="page-heading"><div><div class="eyebrow">把讨论串成脉络</div><h1>群里聊了什么？</h1><p>看重点，也能回到每一句原话。</p></div><span class="page-stamp">模拟模型<br><small>全程离线 · 合成样例</small></span></div>
+        <div id="bot-reports">
+        <form id="report-form" class="panel report-filters">
+          <div class="report-order" id="report-order">
+            <label>想看什么<select name="kind" id="kind"><optgroup label="综合报告"><option value="daily">日报</option><option value="weekly">周报</option></optgroup><optgroup label="单独摘要"><option value="member">成员发言摘要</option><option value="discussion">多人讨论摘要</option></optgroup></select></label>
+            <input type="hidden" name="period" id="summary-period" value="daily" disabled>
+            <div class="date-range" id="date-range"><label id="range-preset-field" hidden>时间范围<select id="range-preset"><option value="custom">指定周期</option><option id="range-minute-option" value="minute" hidden>指定周期 · 精确到分钟</option><option id="range-single-option" value="day">单日</option><optgroup label="快捷选择"><option value="last7">最近 7 天</option><option value="thisweek">本周</option><option value="lastweek">上周</option></optgroup></select></label><label><span id="date-label">日期</span><input type="date" name="date" id="date" aria-describedby="range-help" required></label><label id="range-end-field" hidden>结束日期<input type="date" name="end_date" id="range-end" aria-describedby="range-help" disabled></label><label id="report-start-field" hidden>开始时间<input type="datetime-local" name="start_time" id="report-start" step="60" aria-describedby="range-help" disabled></label><label id="report-end-field" hidden>结束时间<input type="datetime-local" name="end_time" id="report-end" step="60" aria-describedby="range-help" disabled></label></div>
+          </div>
+          <div class="filters bare">
+          <label id="member-field" hidden>成员<select name="member" id="member" disabled></select></label>
+          <label id="topic-field" hidden>讨论话题<select name="topic" id="topic" disabled></select></label>
+          <label>阅读方式<select name="mode" id="report-mode"><option value="compact">精简 · 先看重点</option><option value="full">完整 · 更多细节</option></select></label>
+          <button class="primary" id="generate-report" type="submit">生成离线日报 →</button>
+          </div>
+          <p class="hint" id="range-help">日报覆盖所选自然日，按北京时间统计。</p>
+          <details id="report-focus"><summary>关注维度 <span class="hint">可选：补充成员或讨论摘要</span></summary><div class="focus-fields"><label>关注成员<select name="focus_member" id="focus-member"></select></label><label>关注话题<select name="focus_topic" id="focus-topic"></select></label></div><p class="hint">在报告中补充摘要，仍保留全频道内容；生成后也可单独摘取。</p></details>
+        </form>
+        <div class="layout-toolbar" id="layout-toolbar"><label for="report-layout">日报 / 周报版式<select id="report-layout" aria-describedby="layout-help"></select></label><div><span class="badge">11 个参考版式 · 拾聊适配</span><p id="layout-help" class="hint">切换仅改变展示，使用同一份离线报告。</p></div></div>
+        <details class="panel delivery-panel" id="report-delivery" hidden><summary>通过 Bot 发送 <span class="hint">离线预览与模拟</span></summary><form id="delivery-form" class="filters bare"><label>使用 Bot<select id="delivery-bot" required></select></label><label>目标频道<select id="delivery-channel" required></select></label><button class="primary" id="preview-delivery">预览发送内容</button><button type="button" id="manage-bots">配置 Bot</button></form><p class="hint">发送当前报告或摘取摘要的完整文字，保留出处与覆盖说明；版式用于页面阅读。目标仅限同服务器，预览后可执行本地模拟。</p><div id="delivery-preview" hidden></div><button id="simulate-delivery" type="button" hidden>模拟发送（不会发到 Discord）</button><div id="delivery-status" role="status" aria-live="polite" hidden></div></details>
+        <div id="report-output" aria-live="polite"></div>
+        </div>
+        <div id="page-imports" hidden>
+        <div id="personal-compose" class="panel">
+        <form class="filters import-range" id="exporter-range"><label>想看什么<select id="import-kind"><option value="member">成员发言摘要</option><option value="daily">频道日报</option><option value="weekly">周期报告 / 周报</option><option value="discussion">讨论摘要</option></select></label><label>看哪段时间<select id="import-period"><option value="day">单日</option><option value="custom">指定周期 · 精确到分钟</option></select></label><label id="import-date-field">日期<input id="import-date" type="date" required></label><label id="import-start-field" hidden>开始时间<input id="import-start" type="datetime-local" step="60" aria-describedby="import-time-help" disabled></label><label id="import-end-field" hidden>结束时间<input id="import-end" type="datetime-local" step="60" aria-describedby="import-time-help" disabled></label><p class="hint" id="import-time-help">北京时间 · 可选择单日或指定起止时间。</p></form>
+        <details class="compose-options"><summary>更多选项 <span id="import-options-summary" class="hint"></span></summary><div class="filters bare"><label>阅读方式<select id="import-mode"><option value="compact">精简 · 先看重点</option><option value="full">完整 · 更多细节</option></select></label><label id="import-layout-field" hidden>日报 / 周报版式<select id="import-layout"></select></label><label>按哪个时区<select id="import-timezone"><option value="Asia/Shanghai">北京时间</option><option value="America/Los_Angeles">洛杉矶时间</option><option value="UTC">UTC</option></select></label></div></details>
+        <section id="import-analysis" hidden><form id="import-report-form"><div id="import-member-fields"><div class="section-head"><h2>总结谁的发言？</h2><span class="hint" id="import-count"></span></div><label class="visually-hidden" for="import-member-search">搜索成员</label><input id="import-member-search" type="search" placeholder="按名字找人" hidden><fieldset id="import-members" class="daily-members import-members"><legend class="visually-hidden">选择要总结的成员</legend></fieldset></div><label id="import-topic-field" hidden>想了解的话题<input id="import-topic" maxlength="200" placeholder="留空时整理全部讨论"></label><div class="form-actions"><button type="submit" class="primary" id="import-generate">生成成员摘要 →</button><span class="hint" id="import-generation-help">选好内容后，点击生成即可。</span></div></form></section>
+        <details class="compose-records"><summary>记录与读取 <span class="hint" id="import-file-note">生成前自动补齐所选周期。</span></summary><p class="hint">生成前会自动读取所选周期的记录。需要单独检查记录时，可在这里重新读取，不会调用模型。</p><button type="submit" form="exporter-range" id="exporter-read">重新读取记录</button></details>
+        </div>
+        <div id="import-status" role="status" aria-live="polite" hidden></div>
+        <div id="import-result" aria-live="polite"></div>
+        <section class="panel" id="import-history-panel" hidden><h2>历史报告</h2><div id="import-history" class="daily-report-links"></div><p class="hint">查看历史不调用模型，保留当时的周期、原文和出处。</p></section>
+        <details class="panel import-account" id="exporter-settings">
+          <summary>Discord 账号连接</summary>
+          <p class="hint" id="exporter-account-state">个人账号读取已关闭。</p>
+          <p class="hint"><span id="exporter-risk">开启后，拾聊使用你的 Discord 登录 Token 自动读取所选频道的消息。Discord 禁止这种普通账号自动化。即使你只读取自己有权查看的频道，账号也可能被停用。</span> <a href="https://support.discord.com/hc/en-us/articles/115002192352-Automated-User-Accounts-Self-Bots" target="_blank" rel="noopener noreferrer">Discord 官方说明 ↗</a></p>
+          <div class="form-actions">
+            <button type="button" id="exporter-enable" aria-describedby="exporter-risk">了解风险，启用个人只读</button>
+            <button type="button" id="exporter-disable" hidden>关闭个人读取</button>
+          </div>
+          <form id="exporter-form" hidden>
+            <label>个人账号读取凭据<input id="exporter-token" type="password" autocomplete="off" placeholder="仅首次填写，保存在本机" aria-describedby="exporter-risk" disabled></label>
+            <div class="form-actions"><button type="submit">保存读取凭据</button><button type="button" id="exporter-connect">连接并发现服务器</button><button type="button" class="evidence-link" id="exporter-clear">清除读取凭据</button></div>
+          </form>
+        </details>
+        <details class="panel import-advanced" id="import-files"><summary>备用：导入已有 JSON 或查看本地记录</summary><p class="hint">支持 DiscordChatExporter 的单频道 JSON，最大 25 MiB；只保存在本机，导入不调用模型。</p><label>导入 JSON 文件<input type="file" id="import-file" accept=".json,application/json"></label><label>本地记录<select id="import-select"><option value="">尚无记录</option></select></label></details>
+        </div>
+        <details id="daily-panel" class="panel daily-panel" hidden>
+          <summary class="daily-heading">每天自动总结 <span id="daily-badge" class="badge">尚未设置</span></summary>
+          <div class="daily-summary-row"><p id="daily-summary" class="hint">选好固定成员，每天自动生成频道日报和各人的发言摘要。</p><button type="button" id="daily-preview" disabled>立即生成昨日</button></div>
+          <div id="daily-settings">
+            <form id="daily-form">
+              <div class="daily-settings-grid"><fieldset><legend>关注的成员（可选） <span id="daily-member-count" class="hint"></span></legend><label class="visually-hidden" for="daily-member-search">搜索频道成员</label><input id="daily-member-search" type="search" placeholder="按名字找人" autocomplete="off"><div id="daily-members" class="daily-members"></div><p class="hint">不选成员时生成频道日报；选中后另外生成各人的摘要。</p></fieldset>
+                <div class="daily-time"><div class="daily-clock"><label>每天几点生成<input id="daily-time" type="time" value="00:10" required></label><label>按哪个时区<select id="daily-timezone"><option value="Asia/Shanghai">北京时间</option><option value="America/Los_Angeles">洛杉矶时间</option><option value="UTC">UTC</option></select></label></div><p id="daily-time-help" class="hint">按所选时区总结前一天的完整记录。</p><label class="daily-instructions">希望怎么总结（可选）<textarea id="daily-instructions" rows="3" maxlength="2000" placeholder="例如：重点整理资讯和个人观点，保留条件与语气，省略无关闲聊。"></textarea></label><label class="check-label"><input id="daily-enabled" type="checkbox">每天自动生成</label><button id="save-daily" class="primary" type="submit">保存设置</button><p class="hint">开启后按时调用模型，结果保存在拾聊。电脑和后台服务需要保持运行。</p></div>
+              </div>
+            </form>
+          </div>
+          <div id="daily-message" role="status" aria-live="polite" hidden></div>
+          <div id="daily-runs" class="daily-runs" aria-live="polite"></div><button type="button" id="daily-older" hidden>更早的日报</button>
+          <details class="daily-advanced"><summary>补生成与后台运行</summary><div class="daily-summary-row"><label>补生成日期<input id="daily-date" type="date"></label><button id="daily-generate-date" type="button">生成所选日期</button></div><p class="hint">同一天已生成的内容直接打开；失败后只继续未完成项。设备离线的日期恢复后按顺序补跑，主动暂停期间不补生成。模型请求结果未知时需检查后手动继续。</p><div class="daily-background"><span id="background-state" class="hint"></span><button id="enable-background" type="button" hidden>开启登录后台运行</button></div><p class="hint">关闭网页和终端不影响已开启的后台服务；登录后自动启动。关机、休眠、退出登录或断网期间无法准时执行，恢复后补跑。双击“停止拾聊”可停止后台，数据保留。</p></details>
+        </details>
+      </section>
+      <section id="page-questions" class="page" hidden>
+        <div class="page-heading"><div><div class="eyebrow">从原话中寻找答案</div><h1>问问这个频道</h1><p>问题只基于左侧选中的服务器和频道，回答附原文。</p></div><span class="badge">模拟模型 · 离线</span></div>
+        <div class="question-dates"><label>开始日期<input type="date" id="question-start" form="question-form" required></label><label>结束日期<input type="date" id="question-end" form="question-form" required></label><button type="button" id="question-recent">最近7天</button><span class="hint">指定周期，包含结束当天。</span></div>
+        <div id="question-scroll" class="question-scroll" role="region" aria-label="问答记录" tabindex="0">
+          <div id="question-welcome" class="question-welcome"><img src="/assets/app-icon.png" width="48" height="48" alt=""><h2>这个频道里，你想了解什么？</h2><p>选好时间，直接提问。也可以从这些问题开始。</p><div class="question-examples"><button type="button" data-question="发布计划有哪些决定和不同意见？">发布决定与分歧</button><button type="button" data-question="新手指南准备怎么改？">新手指南怎么改</button></div></div>
+          <button type="button" id="older-questions" hidden>加载更早的问答</button>
+          <div id="question-messages" class="question-messages" aria-live="polite"></div>
+        </div>
+        <form id="question-form" class="panel question-form" novalidate>
+          <label for="question-input" class="visually-hidden">你的问题</label><textarea id="question-input" rows="2" maxlength="2000" required placeholder="例如：这个频道对发布计划有哪些决定和分歧？"></textarea>
+          <details><summary>问答说明与长度保护</summary><p class="hint">先检索所选日期内的本地聊天，再按相关性和总长度选入原文，没有固定条数上限。当前模拟输入最多24KiB，含提示词、问题、原文、引用及对话记忆，超出会标记部分覆盖。这里是字节预算，不是 Token 数。</p><p class="hint">一轮为一次提问＋一次回答。每次最多携带最近6轮；每轮问题及回答裁短后用于理解追问，事实必须来自本轮检索原文。历史存档保留全文，不会全部塞入模型。</p></details>
+          <div class="question-tools" aria-label="对话管理"><button type="button" id="clear-questions">＋ 新对话</button><label><span class="visually-hidden">查看以前的问答</span><select id="question-history" disabled><option value="">还没有问答记录</option></select></label><button class="primary" id="ask-question" type="submit">提问 →</button></div>
+          <div id="question-status" role="status" aria-live="polite" hidden></div>
+        </form>
+      </section>
+      <section id="page-activity" class="page" hidden>
+        <div class="page-heading"><div><div class="eyebrow">从原始消息看变化</div><h1>活跃与话题趋势</h1><p>消息数、参与人数与上一期对照，口径清楚可核对。</p></div></div>
+        <form id="activity-form" class="panel filters report-filters"><label id="activity-range-field">时间范围<select id="activity-range"><option value="day">单日</option><option value="week">最近7天</option><option value="custom">指定周期</option></select></label><label><span id="activity-date-label">日期</span><input id="activity-date" type="date" required></label><label id="activity-end-field" hidden>结束日期<input id="activity-end" type="date"></label><button class="primary">查看统计 →</button><span class="hint">自动对照上一等长周期，统计不调用模型。</span></form>
+        <div id="activity-output" aria-live="polite"></div>
+      </section>
+      <section id="page-alerts" class="page" hidden>
+        <div class="page-heading"><div><div class="eyebrow">关心的事，不用反复翻</div><h1>重点提醒</h1><p>输入关注关键词，在合成消息中检查。结果只保存在本机。</p></div></div>
+        <form id="alert-rule-form" class="panel filters report-filters" hidden><label>关注关键词<input id="rule-keyword" maxlength="50" placeholder="例如：读书分享"></label><label>成员<select id="rule-member"><option value="">所有成员</option></select></label><button class="primary">保存关注</button><span class="hint">至少填写关键词或选择成员；同时设置时须都符合。保存后只关注新发言及后续编辑，历史回补不产生新提醒。</span></form>
+        <div id="alert-rule-list" hidden></div>
+        <details id="alert-history-panel" open><summary>单次检查</summary>
+        <form id="alerts-form" class="panel">
+          <div class="filters bare"><label>日期<input id="alert-date" type="date" required></label><label>关注关键词<input id="keyword" value="发布" maxlength="50" required></label><button class="primary">检查本地提醒 →</button></div>
+          <p class="hint">本轮手动检查，不自动轮询。相同关键词、消息和内容版本重复检查不会新增；换关键词是另一条关注规则。</p>
+        </form>
+        </details>
+        <div id="alert-result" role="status" aria-live="polite"></div><div id="alerts-output"></div>
+      </section>
+      <section id="page-bots" class="page" hidden>
+        <div class="page-heading"><div><div class="eyebrow">为服务器配置助手</div><h1>Bot 接入</h1><p>可添加多个 Bot，分别选择服务器和允许发送的频道。</p></div><span class="badge">离线配置 · 未连接</span></div>
+        <div class="notice" id="bot-notice"><strong>当前只保存本地配置、预览并模拟发送</strong><p>不登录 Discord，不验证权限，不读取真实聊天，不发送消息。请勿填写真实 Token。</p></div>
+        <details id="live-bot-help" class="panel" hidden><summary>首次接入 Bot 的准备</summary><p>在 <a href="https://discord.com/developers/applications" target="_blank" rel="noopener noreferrer">Discord 开发者页面</a> 创建应用，在 Bot 页取得 Token，并启用 Message Content Intent。保存到下方后，点击“连接并发现服务器”。若尚未加入服务器，可使用连接结果里的邀请链接。</p><p>Bot只需要查看频道和读取历史消息权限；不需要管理员或发送消息权限。读取所选频道及直属可读子线程的文字；不含未加入的归档私密线程、附件、图片和外链正文。</p></details>
+        <div class="bot-workspace"><section class="panel"><div class="section-head"><h2>当前服务器的 Bot</h2><button id="new-bot" type="button">＋ 添加</button></div><div id="bot-list"></div><p class="hint">切换左侧服务器，管理该服务器的配置。同一服务器可有多个 Bot。</p></section>
+        <form id="bot-form" class="panel" novalidate><h2 id="bot-form-title">添加 Bot</h2><p id="bot-scope" class="hint"></p><input id="bot-id" type="hidden"><label>Bot 名称<input id="bot-name" required maxlength="50" placeholder="例如：日报助手"></label><label>演示 Token<input type="password" id="bot-token" autocomplete="off" spellcheck="false" maxlength="4096" placeholder="可留空，或填 demo-bot"></label><p id="bot-token-state" class="hint">只在本次服务运行期间保留，不写入数据库。</p><label class="check-label"><input type="checkbox" id="clear-bot-token">清除演示 Token</label><fieldset><legend>允许发送到哪些频道</legend><div id="bot-channels"></div></fieldset><details><summary>高级设置</summary><label>Application ID（可留空）<input id="bot-application" maxlength="25" inputmode="numeric" pattern="[0-9]*"></label></details><div class="form-actions"><button class="primary">保存离线配置</button><button id="cancel-bot-edit" type="button">重置表单</button></div><div id="bot-status" role="status" aria-live="polite" hidden></div></form></div>
+        <section id="live-sync" class="panel" hidden><div class="section-head"><h2>频道自动同步</h2><span class="badge">只读 · 不发送消息</span></div><p class="hint" id="sync-scope">先连接 Bot 并发现可读频道。</p><p id="auto-sync-detail" class="hint">选定频道后自动开始，无需手动同步。</p><details id="sync-advanced"><summary>高级同步与诊断</summary><div class="form-actions"><button type="button" id="auto-sync-toggle">暂停后台同步</button><button type="button" id="auto-sync-retry">立即重试</button></div><p class="hint">后台先补齐最近 7 天，已有同步范围会继续沿用；生成或提问前自动读取所选日期，不限于最近 7 天。本机服务运行时每 15 秒检查新增消息，关闭网页不影响；退出服务或电脑休眠会停止。</p><form id="sync-form" novalidate><div class="filters bare"><label>使用 Bot<select id="sync-bot" required></select></label><label>开始日期<input id="sync-start" type="date" required></label><label>结束日期<input id="sync-end" type="date" required></label><button id="start-sync">重新完整同步</button><button type="button" id="continue-sync" hidden>继续未完成的同步</button></div><label>单次最多页数<input id="sync-pages" type="number" min="1" max="1000" value="100" required></label><p class="hint">每页最多100条。达到预算会保留游标，不会把部分记录算作全部。重新完整同步会检查本地记录的编辑和删除。</p></form><div id="sync-status" role="status" aria-live="polite" hidden></div></details></section>
+        <details class="panel" id="runtime-help"><summary>聊天从哪里来？是否需要一直开着？</summary><p>当前只分析本机保存的合成样例。正式接入后，应由获授权的 Bot 从所选服务器频道读取并同步到本地，分析本地已同步的记录；不会直接读取电脑上的 Discord 客户端记录。</p><p>查看和分析已有记录，只需使用时启动本机服务；当前页面关闭后服务仍继续运行。未来实时同步、定时报告和自动发送需要后台服务持续运行，界面窗口可关闭。部署到另一台常开设备后，本电脑可关闭。持续后台运行与部署尚未实现。</p><p>正式接入还需邀请 Bot、确认频道权限、消息内容访问、Token 安全存储和连接测试；本页的选项不是 Discord 实际授权。</p></details>
+      </section>
+      <section id="page-settings" class="page" hidden>
+        <div class="page-heading"><div><div class="eyebrow">按你的习惯连接模型</div><h1>模型设置</h1><p>先填三项基本信息，其余保持默认即可。</p></div><span class="badge">OpenAI Compatible</span></div>
+        <form id="config-form" class="panel settings-form" novalidate>
+          <div class="notice" id="model-notice"><strong>本版只做离线格式检查</strong><p>请使用 demo- 开头的演示密钥。不会连接服务，不能验证真实密钥或模型；密钥只在本次运行期间保留，关闭服务后清除。</p></div>
+          <label for="base-url">服务地址 <span class="english">Base URL</span></label><p class="hint" id="url-help">填写服务商提供的 API 基础地址。例如 https://example.invalid/v1</p><input type="url" id="base-url" name="base_url" aria-describedby="url-help" required autocomplete="off">
+          <label for="model">模型名称 <span class="english">Model</span></label><p class="hint" id="model-help">按服务商提供的名称填写。离线体验可填 demo-model。</p><input id="model" name="model" aria-describedby="model-help" required maxlength="200" autocomplete="off">
+          <label for="api-key">演示密钥 <span class="english">API Key</span></label><div class="key-row"><input type="password" id="api-key" name="api_key" autocomplete="off" spellcheck="false" maxlength="4096" aria-describedby="key-state"><button type="button" id="toggle-key" aria-pressed="false">显示</button></div><p class="hint" id="key-state">尚未填写演示密钥，例如 demo-test。</p><label class="check-label"><input type="checkbox" id="clear-key">清除已保存的演示密钥</label>
+          <details id="advanced"><summary>高级设置 <span class="hint">一般不需要修改</span></summary>
+            <div class="advanced-grid"><label>协议类型<select id="protocol" name="protocol"><option value="openai-compatible">OpenAI Compatible</option></select></label><label>无响应等待上限（秒）<input id="timeout" name="timeout" type="number" min="1" max="1800" value="30" required><span class="hint">默认300秒。模型持续返回时保持接收，连续无响应才超时；最多1800秒。</span></label><label>重试次数<input id="retries" name="retries" type="number" min="0" max="5" value="1" required></label><label>最大输出长度（Token）<input id="max-tokens" name="max_tokens" type="number" min="1" max="131072" value="2048" required></label><label>Temperature（可留空）<input id="temperature" name="temperature" type="number" min="0" max="2" step="0.1"><span class="hint">留空时使用服务商默认值</span></label></div><div class="advanced-grid" id="live-model-advanced" hidden><label>输入预算（KiB）<input id="input-kib" name="input_kib" type="number" min="8" max="1024" value="48" disabled><span class="hint">包含提示词、原文及历史的UTF-8长度。长报告分批；按模型上下文能力调整，此值不是Token数。</span></label><label>输出长度参数<select id="output-parameter" name="output_parameter" disabled><option value="auto">自动选择</option><option value="max_tokens">max_tokens</option><option value="max_completion_tokens">max_completion_tokens</option></select></label><label>JSON模式<select id="json-mode" name="json_mode" disabled><option value="false">不额外发送参数（兼容优先）</option><option value="true">发送 response_format: json_object</option></select></label></div><button type="button" id="reset-advanced">恢复高级默认值</button><p class="hint" id="advanced-help">参数仅保存，离线版本不执行请求，也不验证供应商是否支持。</p>
+          </details>
+          <div class="form-actions"><button class="primary" type="submit">保存配置</button><button type="button" id="check-config">离线检查格式</button></div><p class="hint" id="model-storage-help">保存不发起连接。配置保存在本机；演示密钥不会写入数据库或导出。</p><div id="config-status" role="status" aria-live="polite"></div>
+        </form>
+      </section>
+      <footer>拾聊 ChatPick <span>·</span> 合成样例日期 2026-10-21 <span>·</span> Asia/Shanghai</footer>
+    </main>
+  </div>
+</body>
+</html>

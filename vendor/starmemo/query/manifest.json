@@ -1,0 +1,87 @@
+{
+  "head": "05bda4a454a9b7c06d1e8dbe661dbf0c934ddd3a",
+  "files": [
+    {
+      "file": "local-query-api.ts",
+      "source_sha256": "ed6e16fdd538ce8bb76f73bf6294d81ea4aed3fbe2139de5da10670399798ceb",
+      "copied_sha256": "2210ff6d5104f720a9ae911199ff891182eb346c3f267754c805c998fd630382",
+      "source_bytes": 27088,
+      "source_lines": 508,
+      "changes": [
+        "platform naming and settings labels"
+      ]
+    },
+    {
+      "file": "query-agent-message-references.ts",
+      "source_sha256": "6be3f5075b48b0592a311dc8aae5e18a807afd94b0c80397e77d3fee983c97a6",
+      "copied_sha256": "6be3f5075b48b0592a311dc8aae5e18a807afd94b0c80397e77d3fee983c97a6",
+      "source_bytes": 4701,
+      "source_lines": 119,
+      "changes": [
+        "platform naming and settings labels"
+      ]
+    },
+    {
+      "file": "query-agent-conversation-memory.ts",
+      "source_sha256": "59c809a653e28b3931e7945a7eab460fe709e64f673b319740e2bddc4a082039",
+      "copied_sha256": "1b9fcf202fa0f0e7b29c5cb3f3b14b7ebb5e5756a8be4096a16e5ff290fb890d",
+      "source_bytes": 7769,
+      "source_lines": 217,
+      "changes": [
+        "platform naming and settings labels",
+        "existing six-pair memory window and bounded prompt excerpts"
+      ]
+    },
+    {
+      "file": "ai-search-evidence.ts",
+      "source_sha256": "6f7371667687d1ac2f99d839657c6a62f04ed6eb1de6c36cddf9059921001fcb",
+      "copied_sha256": "6f7371667687d1ac2f99d839657c6a62f04ed6eb1de6c36cddf9059921001fcb",
+      "source_bytes": 9724,
+      "source_lines": 287,
+      "changes": [
+        "platform naming and settings labels"
+      ]
+    },
+    {
+      "file": "query-agent-service.ts",
+      "source_sha256": "45e02dfad3e50bd5151dc581672b0420f2607661c60e2212ac75dcdb988b97a2",
+      "copied_sha256": "0515766ecaa6ec02127297d53d8e7da9d7647178cd466580478fecd0e1acadac",
+      "source_bytes": 85346,
+      "source_lines": 1852,
+      "changes": [
+        "platform naming and settings labels",
+        "disable automatic date broadening; selected dates are a hard boundary"
+      ]
+    },
+    {
+      "file": "local-query-tool-executor.ts",
+      "source_sha256": "30b966be9be0a00e5eafdca74b355f5818c91669816657af4c44d147b7e3ea0c",
+      "copied_sha256": "99d9bb225371ec4a03d2c3d6ebd27353038053861cacfa13e5ca335b995b3d4d",
+      "source_bytes": 2403,
+      "source_lines": 59,
+      "changes": [
+        "platform naming and settings labels"
+      ]
+    },
+    {
+      "file": "ask-channel-service.ts",
+      "source_sha256": "38eda1d8aaf776178c1054c46894652bcdd9dc11e468aaf3940b776c43365f84",
+      "copied_sha256": "bc6e61ea913e301ed916f1ffdca8edd163534eb8b87521feaec74755da6aed2f",
+      "source_bytes": 15682,
+      "source_lines": 399,
+      "changes": [
+        "platform naming and settings labels"
+      ]
+    },
+    {
+      "file": "ai-provider-failure.ts",
+      "source_sha256": "56bc82686cb68286a2a515f79d3f14bc21e93fcb17fc770bd829dea67395e8ca",
+      "copied_sha256": "0348c22a8c2804527a014c450dc47a101aefef95e0c98ea275d354e2e2db1e51",
+      "source_bytes": 6223,
+      "source_lines": 140,
+      "changes": [
+        "platform naming and settings labels"
+      ]
+    }
+  ]
+}

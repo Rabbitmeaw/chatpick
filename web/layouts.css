@@ -1,0 +1,129 @@
+/* StarMemo 11 个产品版式的群脉独立适配。只改变当前报告的呈现。 */
+.layout-toolbar{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin:2px 0 22px;padding:0 2px}
+.layout-toolbar>label{min-width:170px;width:170px;font-size:12px}.layout-toolbar select{margin-top:5px;min-height:38px;padding:7px 10px;font-size:13px}
+.layout-toolbar>div{flex:1;min-width:230px}.layout-toolbar .hint{margin-top:7px;font-size:12px}
+.reading-mobile{grid-template-columns:minmax(0,680px) minmax(220px,280px);justify-content:center}
+.reading-desktop{grid-template-columns:minmax(0,1fr)}.reading-desktop>.report-side{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.digest-sections{display:flex;flex-direction:column;gap:20px}.digest-sections>section{min-width:0}
+.server-digest .digest-sections{display:flex;flex-direction:column}.server-overview p{white-space:pre-line}.server-report-group+.server-report-group{margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}.server-report-group .summary-topic:last-child{border-bottom:0}
+.digest-sections .action-section,.digest-sections .important-section{margin:0;padding-top:18px}
+.digest-sections .important-section{border-top:1px solid var(--line)}
+.digest-report>.digest-disclaimer{padding:0 0 15px;margin:0}
+.digest-kpis{display:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:20px 0}
+.digest-kpis>div{padding:12px;border:1px solid var(--line);border-radius:7px}
+.digest-kpis strong{font-size:26px;display:block;line-height:1.3;font-variant-numeric:tabular-nums}
+.digest-kpis small{display:block;font-size:11px;margin-top:5px}
+.digest-kpis .fourth-kpi{display:none}
+.digest-report .topics-section,.digest-report .action-section{scroll-margin-top:20px}
+.digest-report{min-width:0;overflow-wrap:anywhere}
+
+/* 经典日报：有序单栏。 */
+.layout-classic .digest-hero{background:#eff8f6}
+.layout-classic .digest-sections{gap:24px}
+
+/* 轻量信息流：浅紫窄栏、白卡片与发言摘录。 */
+.layout-feed{max-width:520px;justify-self:center;background:#f1eef8;padding:20px;--accent:#72529b;--accent-dark:#56377b}
+.layout-feed .digest-hero{background:white;border:0;border-radius:12px}
+.layout-feed .digest-hero h3{font-size:23px}.layout-feed .digest-topic{border:0;padding:16px 0}
+.layout-feed .topic-card-head h3{font-size:16px}.layout-feed .topic-number{border-radius:50%;background:#e4dbf0;width:28px;height:28px}
+.layout-feed .topic-summary{background:white;border-left:3px solid #9675bd;padding:14px 16px;border-radius:2px 10px 10px 2px;line-height:1.9}
+.layout-feed .participants{margin:8px 0}.layout-feed .person-tag{background:#e8e0f1;color:#645079}
+.layout-feed .conclusions{background:white;border-radius:10px}.layout-feed .topic-evidence .quote{background:white;border:0;border-radius:10px;padding:13px}
+.layout-feed .action-section{background:white;border-radius:12px;padding:18px!important}.layout-feed .action-columns{grid-template-columns:1fr;gap:12px}
+.layout-feed .section-head{flex-wrap:wrap;gap:5px}
+
+/* AI Magazine：奶油纸面、衬线大标题与 2×2 数字。 */
+.layout-magazine{max-width:560px;justify-self:center;background:#fbf7ef;border-top:5px solid #9b4d3d;padding:28px;--accent:#9b4d3d;--accent-dark:#71392e;--line:#e1d6c8}
+.layout-magazine .digest-hero{background:transparent;border:0;padding:15px 0 25px}
+.layout-magazine .digest-hero h3{font-family:Georgia,"Songti SC","SimSun",serif;font-size:34px;line-height:1.45;letter-spacing:1px;margin:15px 0 20px}
+.layout-magazine .eyebrow{letter-spacing:3px}.layout-magazine .digest-kpis{display:grid;grid-template-columns:1fr 1fr}
+.layout-magazine .digest-kpis .fourth-kpi{display:block}.layout-magazine .digest-kpis>div{border:0;border-bottom:1px solid var(--line);border-radius:0;padding:12px 0}
+.layout-magazine .digest-kpis strong{font-family:Georgia,serif;font-size:36px;color:#71392e}
+.layout-magazine .digest-topic{padding:28px 0}.layout-magazine .topic-number{background:transparent;color:#9b4d3d;font-size:27px;width:32px;font-weight:700}
+.layout-magazine .topic-summary{font-size:15px;line-height:2}.layout-magazine .conclusions{background:#f4ecdf;border-left:2px solid #9b4d3d;border-radius:0}
+.layout-magazine .action-columns{grid-template-columns:1fr}.layout-magazine .section-head{flex-wrap:wrap;gap:6px}
+
+/* AI Command Center：深紫驾驶舱，2×2 KPI 与行动优先。 */
+.layout-dashboard{max-width:560px;justify-self:center;background:#191625;color:#eee9fb;--ink:#eee9fb;--muted:#c1b6d7;--line:#49405e;--accent:#c5a6ff;--accent-dark:#d9c3ff}
+.layout-dashboard .digest-hero{border:1px solid #65537f;background:#272033;padding:20px}
+.layout-dashboard .digest-kpis{display:grid;grid-template-columns:1fr 1fr}.layout-dashboard .digest-kpis .fourth-kpi{display:block}
+.layout-dashboard .digest-kpis>div{border:0;background:#342b45;text-align:center}
+.layout-dashboard .digest-kpis strong{color:#d2baff;font-family:ui-monospace,Menlo,monospace}.layout-dashboard .action-section{padding:18px!important;border-radius:8px;background:#272033}
+.layout-dashboard .action-columns{grid-template-columns:1fr;gap:14px}.layout-dashboard .digest-topic{background:#272033;border:1px solid #49405e;border-radius:8px;margin:12px 0;padding:18px}
+.layout-dashboard .topic-number{background:#493759;color:#d2baff}.layout-dashboard .section-head{flex-wrap:wrap;gap:5px}
+.layout-dashboard .conclusions,.layout-dashboard .source-message{background:#342b45}.layout-dashboard .person-tag,.layout-dashboard .stance{background:#493759;color:#e1d1f6}
+.layout-dashboard .badge{background:#342b45;border-color:#65537f;color:#d2baff}.layout-dashboard .hero-takeaway{border-color:#65537f}
+.layout-dashboard .source-message.missing{background:#483817;color:#f5d399}
+.layout-dashboard .hidden-notice{background:#342b45}.layout-dashboard .evidence-link:hover{background:#493759}
+
+/* 三栏 AI 工作台：报告内部的总览、讨论、行动并列。 */
+.layout-workspace .digest-sections{display:grid;grid-template-columns:230px minmax(0,1fr) 260px;gap:18px;align-items:start}
+.layout-workspace .digest-hero{grid-column:1;grid-row:1 / span 3;padding:16px;border:1px solid var(--line)}
+.layout-workspace .topics-section{grid-column:2;grid-row:1 / span 3}.layout-workspace .action-section{grid-column:3;grid-row:1;background:#f5f8fb;border-radius:6px;padding:14px!important}
+.layout-workspace .important-section{grid-column:3;grid-row:2}.layout-workspace .digest-hero h3{font-size:21px}
+.layout-workspace .section-head{flex-wrap:wrap;gap:4px}.layout-workspace h2{font-size:16px}.layout-workspace .action-columns{grid-template-columns:1fr;gap:12px}
+.layout-workspace .digest-kpis{display:grid;grid-template-columns:1fr;margin-top:14px}.layout-workspace .digest-kpis>div{border:0;border-top:1px solid var(--line);padding:9px 0;border-radius:0}
+.layout-workspace .digest-kpis strong{font-size:24px}.layout-workspace .topic-card-head{flex-wrap:wrap;gap:5px}.layout-workspace .topic-card-head h3{font-size:15px}
+
+/* Editorial 科技日报：头条跨栏，讨论与行动为两个专栏。 */
+.layout-editorial{background:#fbf6eb;border-top:5px solid #8b4939;border-radius:0;padding:25px;--accent:#8b4939;--accent-dark:#71392e;--line:#ddcebb}
+.layout-editorial .digest-sections{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:24px;align-items:start}
+.layout-editorial .digest-hero{grid-column:1 / -1;background:transparent;border:0;border-top:3px double #8b4939;border-bottom:3px double #8b4939;border-radius:0;padding:22px 0}
+.layout-editorial .digest-hero h3{font-family:"Songti SC","SimSun",serif;font-size:34px;line-height:1.5}
+.layout-editorial .topics-section{grid-column:1;grid-row:2 / span 2}.layout-editorial .action-section{grid-column:2;grid-row:2;border-left:1px solid var(--line);padding-left:20px!important}
+.layout-editorial .important-section{grid-column:2;grid-row:3}.layout-editorial .action-columns{grid-template-columns:1fr}
+.layout-editorial .topic-number{border-radius:0;background:#8b4939;color:white}.layout-editorial .section-head{flex-wrap:wrap;gap:5px}
+
+/* 纸上日报：手机报纸式单栏。 */
+.layout-paper{max-width:560px;justify-self:center;background:#fffdf6;color:#34342d;border:1px solid #d9d4bf;border-radius:0;padding:26px;--accent:#64613e;--accent-dark:#46432b;--muted:#77735f;--line:#d9d4bf}
+.layout-paper h2,.layout-paper h3{font-family:"Songti SC","SimSun",serif;letter-spacing:1px}
+.layout-paper>.section-head{border-bottom:3px double #77735f;padding-bottom:15px;flex-wrap:wrap;gap:8px}
+.layout-paper .digest-hero{border:0;background:transparent;padding:10px 0 22px;border-bottom:3px double #77735f;border-radius:0}
+.layout-paper .digest-hero h3{font-size:31px;line-height:1.6}.layout-paper .topic-number{background:none;border:1px solid #77735f;border-radius:0;color:#46432b}
+.layout-paper .conclusions{background:#f5f0dd;border-radius:0;border-left:2px solid #9b946e}.layout-paper .person-tag{background:#f1ecda}
+.layout-paper .action-columns{grid-template-columns:1fr}.layout-paper .digest-topic{border-bottom:1px dashed #c6bea1}
+
+/* 极简速读：先行动，弱化装饰。 */
+.layout-quickread{max-width:560px;justify-self:center;padding:24px}
+.layout-quickread .digest-hero{border:0;background:white;padding:0 0 20px;border-bottom:1px solid var(--line);border-radius:0}
+.layout-quickread .digest-hero h3{font-size:24px}.layout-quickread .hero-takeaway{padding:12px 15px;background:#f0f7f4;border:0;border-radius:6px}
+.layout-quickread .digest-kpis{display:grid}.layout-quickread .digest-kpis strong{font-size:23px}
+.layout-quickread .digest-sections{gap:14px}.layout-quickread .action-columns{grid-template-columns:1fr;gap:8px}
+.layout-quickread .action-section{border-bottom:1px solid var(--line);padding-bottom:15px}.layout-quickread .digest-topic{padding:17px 0}
+.layout-quickread .topic-summary{font-size:13px}.layout-quickread .conclusions{border:0;background:white;padding:8px 0}
+.layout-quickread .section-head{flex-wrap:wrap;gap:5px}.layout-quickread .topic-number{background:transparent;color:var(--muted)}
+
+/* 团队看板：灰绿三栏，讨论、消息、行动并列。 */
+.layout-teamboard{background:#f1f5f2;border-color:#cbdad0;--accent:#3f7560;--accent-dark:#2e5948;--line:#cbdad0}
+.layout-teamboard .digest-sections{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr) minmax(0,.9fr);gap:18px;align-items:start}
+.layout-teamboard .digest-hero{grid-column:1 / -1;background:white;border:1px solid #cbdad0}
+.layout-teamboard .digest-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}.layout-teamboard .digest-kpis .fourth-kpi{display:block}.layout-teamboard .digest-kpis>div{background:#f1f5f2;border:0}
+.layout-teamboard .topics-section{grid-column:1;grid-row:2}.layout-teamboard .action-section{grid-column:3;grid-row:2;background:white;border:1px solid #cbdad0;padding:18px!important;border-radius:8px}
+.layout-teamboard .important-section{grid-column:2;grid-row:2}.layout-teamboard .digest-topic{background:white;border:1px solid #cbdad0;border-top:3px solid #7caa92;border-radius:7px;margin:15px 0;padding:18px}
+.layout-teamboard .digest-sections:not(.has-important){grid-template-columns:minmax(0,1.45fr) minmax(0,1fr)}.layout-teamboard .digest-sections:not(.has-important) .action-section{grid-column:2}
+.layout-teamboard .action-columns{grid-template-columns:1fr}.layout-teamboard .section-head{flex-wrap:wrap;gap:5px}
+
+/* 山水协作：浅蓝山水背景，话题卡片横向排列。 */
+.layout-mountain{background:#f5fbfd;border-color:#c5dae2;--accent:#236a87;--accent-dark:#285368;--line:#c5dae2}
+.layout-mountain .digest-hero{border:0;border-radius:8px;background:linear-gradient(150deg,#eef8fc 0%,#f5fbfd 58%,#b6d5e3 58%,#e1eff6 73%,#91b8ce 73%,#d1e5ef 100%);padding:25px}
+.layout-mountain .digest-hero h3{font-family:"Songti SC","SimSun",serif;font-size:29px;letter-spacing:2px}
+.layout-mountain .topics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.layout-mountain .digest-topic{background:white;border:1px solid #c5dae2;border-radius:8px;padding:17px;margin-top:18px}
+.layout-mountain .action-section{background:#eaf5fa;border-radius:8px;padding:18px!important}.layout-mountain .action-columns{grid-template-columns:1fr 1fr}
+.layout-mountain .topic-number{background:#daebf4;color:#236a87}.layout-mountain .conclusions{background:#eaf5fa}.layout-mountain .section-head{flex-wrap:wrap;gap:5px}
+
+/* 霓光指挥：深色驾驶舱，统计与行动优先。 */
+.layout-neon{background:#111c31;color:#e7effa;border-color:#364a69;--ink:#e7effa;--muted:#b4c4d7;--line:#364a69;--accent:#7de3e6;--accent-dark:#94f1f2}
+.layout-neon .digest-sections{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px;align-items:start}
+.layout-neon .digest-hero{grid-column:1 / -1;background:linear-gradient(#7de3e608 1px,transparent 1px),linear-gradient(90deg,#7de3e608 1px,transparent 1px),#182944;background-size:28px 28px;border:1px solid #418d9e;border-left:3px solid #7de3e6}
+.layout-neon .digest-kpis{display:grid}.layout-neon .digest-kpis>div{background:#142139;border-color:#376079}.layout-neon .digest-kpis strong{color:#7de3e6}
+.layout-neon .topics-section{grid-column:1;grid-row:2 / span 2}.layout-neon .important-section{grid-column:2;grid-row:2}.layout-neon .action-section{grid-column:2;grid-row:3;background:#1c2c45;border-radius:8px;padding:18px!important}
+.layout-neon .action-columns{grid-template-columns:1fr}.layout-neon .digest-topic{border:1px solid #364a69;background:#17263e;border-radius:7px;padding:18px;margin:14px 0}
+.layout-neon .conclusions,.layout-neon .source-message{background:#213550}.layout-neon .person-tag,.layout-neon .stance{background:#2c405b;color:#c6d5e9}
+.layout-neon .topic-number{background:#294862;color:#7de3e6}.layout-neon .badge{border-color:#418d9e;background:#213e52;color:#a5f0eb}
+.layout-neon .hero-takeaway{border-color:#376079}.layout-neon .source-message.missing{background:#483817;color:#f5d399}.layout-neon .section-head{flex-wrap:wrap;gap:5px}
+.layout-neon .hidden-notice{background:#213550}.layout-neon .evidence-link:hover{background:#2c405b}
+
+@media(max-width:1150px){.layout-workspace .digest-sections{display:flex}.layout-workspace .digest-kpis{grid-template-columns:repeat(3,1fr)}.layout-workspace .digest-kpis>div{border:1px solid var(--line);padding:9px}.layout-workspace .action-columns{grid-template-columns:1fr 1fr}}
+@media(max-width:1050px){.report-layout.reading-mobile,.report-layout.reading-desktop{grid-template-columns:minmax(0,1fr)}.layout-feed,.layout-magazine,.layout-dashboard,.layout-paper,.layout-quickread{justify-self:center;width:100%}}
+@media(max-width:700px){.layout-toolbar{gap:12px}.layout-toolbar>label,.layout-toolbar>div{width:100%;min-width:0}.reading-desktop>.report-side{grid-template-columns:1fr}.digest-report .digest-sections{display:flex}.digest-report .action-columns{grid-template-columns:1fr}.layout-editorial .action-section{border-left:0;padding-left:0!important}.layout-magazine,.layout-paper,.layout-editorial{padding:19px}.layout-magazine .digest-hero h3,.layout-editorial .digest-hero h3{font-size:27px}.layout-mountain .digest-hero{padding:18px}.digest-kpis{gap:6px}.digest-kpis>div{padding:8px}.digest-kpis strong{font-size:22px}}

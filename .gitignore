@@ -1,0 +1,33 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.DS_Store
+data/
+logs/
+runtime/
+outputs/
+output/
+exports/
+credentials/
+secrets/
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.pkl
+node_modules/
+dist/
+
+# 本地过程记录及只读上游核查快照
+/work/
+
+# 仅虚构样例和复用源码清单允许入库；覆盖全局 *.json 忽略规则。
+!/fixtures/demo.json
+!/vendor/starmemo/query/manifest.json
